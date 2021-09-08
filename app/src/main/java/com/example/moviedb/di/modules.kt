@@ -1,6 +1,6 @@
 package com.example.moviedb.di
 
-import com.example.moviedb.data.MovieRepository
+import com.example.moviedb.data.MovieRepositoryImp
 import com.example.moviedb.data.network.API_KEY
 import com.example.moviedb.data.network.BASE_URL
 import com.example.moviedb.data.network.MovieRemoteDataSource
@@ -45,7 +45,7 @@ val dataModules = module {
     }
 
     single {
-        MovieRepository(
+        MovieRepositoryImp(
             get(named("movieRemoteDataSource"))
         )
     }

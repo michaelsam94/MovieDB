@@ -12,10 +12,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 
-//@Module
+@Module
 class NetworkModule {
 
-//    @Provides
+    @Provides
     fun provideRetrofitMovieService(okHttpClient: OkHttpClient): MovieService {
         val retrofit =
             Retrofit.Builder()
@@ -26,7 +26,7 @@ class NetworkModule {
         return retrofit.create(MovieService::class.java)
     }
 
-//    @Provides
+    @Provides
     fun provideOkHttpClient(): OkHttpClient {
         val okHttpClientBuilder = with(OkHttpClient.Builder()) {
             this.addInterceptor {

@@ -5,9 +5,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.moviedb.MyApplication
 import com.example.moviedb.R
 import com.example.moviedb.databinding.ActivityMainBinding
 import com.example.moviedb.ui.model.Movie
+import javax.inject.Inject
 
 
 class MainActivity : AppCompatActivity() {
@@ -16,12 +18,16 @@ class MainActivity : AppCompatActivity() {
     private lateinit var adapter: MovieAdapter
     private lateinit var binding: ActivityMainBinding
 
+    @Inject
+    lateinit var viewModel: MainViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        (application as MyApplication).appComponent.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         binding = ActivityMainBinding.bind(findViewById(R.id.content))
-        val viewModel = MainViewModel()
+
 
         viewModel.mainViewState.observe(this, Observer {
             when(it) {
