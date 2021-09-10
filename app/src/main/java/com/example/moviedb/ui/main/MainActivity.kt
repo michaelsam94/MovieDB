@@ -55,6 +55,6 @@ class MainActivity : AppCompatActivity() {
 }
 
 sealed class MainViewState
-data class Success<T>(val data: T): MainViewState()
+data class Success<T>(val data: T?): MainViewState()
 object Progress: MainViewState()
-data class Error (val error: String): MainViewState()
+data class Error (val error: String?): MainViewState()

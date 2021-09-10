@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 class MovieRepositoryImp @Inject constructor(private val movieRemoteDataSource: MovieRemoteDataSource): MovieRepository {
 
-    override fun getMovies(repoCallback: RepoCallBack<List<Movie>>) : List<Movie> {
+    override fun getMovies(repoCallback: RepoCallBack<List<Movie>>){
         movieRemoteDataSource.getMovies(object : NetworkCallback<NowPlayingRes> {
             override fun onSuccess(data: NowPlayingRes?) {
                 repoCallback.onSuccess(convertMovieRes(data!!))
@@ -24,7 +24,6 @@ class MovieRepositoryImp @Inject constructor(private val movieRemoteDataSource: 
             }
 
         })
-        return emptyList()
     }
 
 
