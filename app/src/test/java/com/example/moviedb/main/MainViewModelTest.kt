@@ -7,6 +7,7 @@ import com.example.moviedb.data.MovieRepository
 import com.example.moviedb.data.RepoCallBack
 import com.example.moviedb.ui.main.*
 import com.example.moviedb.ui.model.Movie
+import com.google.common.truth.Truth.assertThat
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
@@ -41,7 +42,8 @@ class MainViewModelTest {
     @Test
     fun `Get Movies shows Progress`() {
         viewModel.getMovies()
-        Assert.assertEquals(Progress, viewModel.mainViewState.value)
+        //Assert.assertEquals(Progress, viewModel.mainViewState.value)
+        assertThat(viewModel.mainViewState.value).isEqualTo(Progress)
     }
 
     @Test
@@ -53,7 +55,8 @@ class MainViewModelTest {
         }.whenever(repo).getMovies(any(RepoCallBack::class))
         //then
         val observer: Observer<MainViewState> = Observer {
-            Assert.assertEquals(Success<List<Movie>>(emptyList()),it)
+            //Assert.assertEquals(Success<List<Movie>>(emptyList()), it)
+            assertThat(it).isEqualTo(Success<List<Movie>>(emptyList()))
         }
         viewModel.mainViewState.observeForever(observer)
         //when
@@ -64,10 +67,11 @@ class MainViewModelTest {
     fun `Get Movies returns Not Empty Result`() {
         doAnswer {
             val callBack: RepoCallBack<List<Movie>> = it.arguments[0] as RepoCallBack<List<Movie>>
-            callBack.onSuccess(listOf(Movie("title","picture","overview")))
+            callBack.onSuccess(listOf(Movie("title", "picture", "overview")))
         }.whenever(repo).getMovies(any(RepoCallBack::class))
         val observer: Observer<MainViewState> = Observer {
-            Assert.assertEquals(Success(listOf(Movie("title","picture","overview"))),it)
+            //Assert.assertEquals(Success(listOf(Movie("title", "picture", "overview"))), it)
+            assertThat(it).isEqualTo(Success(listOf(Movie("title", "picture", "overview"))))
         }
 
         viewModel.mainViewState.observeForever(observer)
@@ -82,7 +86,8 @@ class MainViewModelTest {
             callBack.onError("error")
         }.whenever(repo).getMovies(any(RepoCallBack::class))
         val observer: Observer<MainViewState> = Observer {
-            Assert.assertEquals(Error("error"),it)
+            //Assert.assertEquals(Error("error"), it)
+            assertThat(it).isEqualTo(Error("error"))
         }
 
         viewModel.mainViewState.observeForever(observer)
@@ -96,7 +101,8 @@ class MainViewModelTest {
             callBack.onSuccess(null)
         }.whenever(repo).getMovies(any(RepoCallBack::class))
         val observer: Observer<MainViewState> = Observer {
-            Assert.assertEquals(Success(null),it)
+            //Assert.assertEquals(Success(null),it)
+            assertThat(it).isEqualTo(Success(null))
         }
 
         viewModel.mainViewState.observeForever(observer)
@@ -110,12 +116,11 @@ class MainViewModelTest {
             callBack.onError(null)
         }.whenever(repo).getMovies(any(RepoCallBack::class))
         val observer: Observer<MainViewState> = Observer {
-            Assert.assertEquals(Error(null),it)
+            assertThat(it).isEqualTo(Error(null))
         }
         viewModel.mainViewState.observeForever(observer)
         repo.getMovies(callback)
     }
-
 
 
 }

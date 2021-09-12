@@ -1,6 +1,6 @@
 package com.example.moviedb.helper
 
-import com.example.moviedb.data.NetworkCallback
+import com.example.moviedb.data.network.NetworkCallback
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

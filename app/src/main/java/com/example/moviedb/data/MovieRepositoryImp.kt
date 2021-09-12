@@ -1,17 +1,12 @@
 package com.example.moviedb.data
 
 import com.example.moviedb.NowPlayingRes
-import com.example.moviedb.data.network.MovieRemoteDataSource
-import com.example.moviedb.data.network.MovieService
+import com.example.moviedb.data.network.NetworkCallback
 import com.example.moviedb.data.network.POSTER_PREFIX
 import com.example.moviedb.ui.model.Movie
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.awaitResponse
 import javax.inject.Inject
 
-class MovieRepositoryImp @Inject constructor(private val movieRemoteDataSource: MovieRemoteDataSource): MovieRepository {
+class MovieRepositoryImp @Inject constructor(private val movieRemoteDataSource: MovieDataSource): MovieRepository {
 
     override fun getMovies(repoCallback: RepoCallBack<List<Movie>>){
         movieRemoteDataSource.getMovies(object : NetworkCallback<NowPlayingRes> {

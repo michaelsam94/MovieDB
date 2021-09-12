@@ -6,7 +6,7 @@ import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
 
-@Component(modules = [NetworkModule::class,MovieRepoModule::class])
+@Component(modules = [NetworkModule::class,MovieRepoModule::class,MovieDataSourceModule::class])
 interface AppComponent {
 
     @Component.Factory

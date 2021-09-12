@@ -9,6 +9,7 @@ import com.example.moviedb.MyApplication
 import com.example.moviedb.R
 import com.example.moviedb.databinding.ActivityMainBinding
 import com.example.moviedb.ui.model.Movie
+import java.lang.StringBuilder
 import javax.inject.Inject
 
 
@@ -27,7 +28,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         binding = ActivityMainBinding.bind(findViewById(R.id.content))
-
 
         viewModel.mainViewState.observe(this, Observer {
             when(it) {

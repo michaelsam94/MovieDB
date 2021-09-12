@@ -3,7 +3,7 @@ package com.example.moviedb.di
 import com.example.moviedb.data.MovieRepositoryImp
 import com.example.moviedb.data.network.API_KEY
 import com.example.moviedb.data.network.BASE_URL
-import com.example.moviedb.data.network.MovieRemoteDataSource
+import com.example.moviedb.data.network.MovieRemoteDataSourceImp
 import com.example.moviedb.data.network.MovieService
 import okhttp3.OkHttpClient
 import org.koin.core.qualifier.named
@@ -41,7 +41,7 @@ val dataModules = module {
     }
 
     single(named("movieRemoteDataSource")){
-        MovieRemoteDataSource(get(named("retrofit")))
+        MovieRemoteDataSourceImp(get(named("retrofit")))
     }
 
     single {
