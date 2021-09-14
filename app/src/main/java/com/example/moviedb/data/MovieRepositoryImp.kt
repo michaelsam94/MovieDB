@@ -21,6 +21,15 @@ class MovieRepositoryImp @Inject constructor(private val movieRemoteDataSource: 
         })
     }
 
+    override suspend fun getMoviesCoroutine(): Result<List<Movie>> {
+        val res = movieRemoteDataSource.getMoviesCoroutine()
+        if(res is Result.Success){
+            val resConverted = convertMovieRes(res.data)
+            return Result.Success(resConverted)
+        }
+        return Result.Error((res as Result.Error).exception)
+    }
+
 
     fun convertMovieRes(nowPlayingRes: NowPlayingRes): List<Movie> {
         val result: MutableList<Movie> = mutableListOf()

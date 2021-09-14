@@ -5,6 +5,7 @@ import androidx.lifecycle.Observer
 import com.example.moviedb.any
 import com.example.moviedb.data.MovieRepository
 import com.example.moviedb.data.RepoCallBack
+import com.example.moviedb.getOrAwaitValue
 import com.example.moviedb.ui.main.*
 import com.example.moviedb.ui.model.Movie
 import com.google.common.truth.Truth.assertThat

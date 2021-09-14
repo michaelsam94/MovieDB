@@ -8,4 +8,7 @@ interface MovieService {
 
     @GET("movie/now_playing")
     fun getNowPlaying() : Call<NowPlayingRes>
+
+    @GET("movie/now_playing")
+    suspend fun getNowPlayingCoroutine(): NowPlayingRes
 }
