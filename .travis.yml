@@ -1,7 +1,7 @@
 language: android
 android:
   components:
-    - build-tools-31.0.0
+    - build-tools-27.0.3
     - $ANDROID_TARGET
     - sys-img-armeabi-v7a-$ANDROID_TARGET
     - extra-android-support
@@ -9,7 +9,7 @@ android:
     - extra-google-m2repository
 env:
   matrix:
-    - ANDROID_TARGET=android-31  ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=android-27  ANDROID_ABI=armeabi-v7a
 before_script:
   - echo android list targets
   - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
