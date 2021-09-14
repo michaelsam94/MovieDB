@@ -1,26 +1,17 @@
-sudo: false
-
 language: android
-jdk:
-  - oraclejdk8
 android:
   components:
-    # Use the latest revision of Android SDK Tools
-    - platform-tools
-    - tools
+    - build-tools-31.0.0
+    - $ANDROID_TARGET
+    - sys-img-armeabi-v7a-$ANDROID_TARGET
     - extra-android-support
     - extra-android-m2repository
-
-    # The BuildTools version used by the project
-    - build-tools-31.0.0
-
-    # The SDK version used to compile the project
-    - android-31
-
-    # Specify at least one system image,
-    # if you need to run emulator(s) during your tests
-    #- sys-img-armeabi-v7a-android-19
-    #- sys-img-x86-android-17
-
-script:
-  - ./gradlew build
+    - extra-google-m2repository
+env:
+  matrix:
+    - ANDROID_TARGET=android-31  ANDROID_ABI=armeabi-v7a
+before_script:
+  - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
+  - emulator -avd test -no-skin -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
