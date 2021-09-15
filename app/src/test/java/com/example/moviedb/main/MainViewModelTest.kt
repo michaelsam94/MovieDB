@@ -2,26 +2,36 @@ package com.example.moviedb.main
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import com.example.moviedb.MainCoroutineRule
 import com.example.moviedb.any
 import com.example.moviedb.data.MovieRepository
 import com.example.moviedb.data.RepoCallBack
+import com.example.moviedb.data.Result
 import com.example.moviedb.getOrAwaitValue
 import com.example.moviedb.ui.main.*
 import com.example.moviedb.ui.model.Movie
 import com.google.common.truth.Truth.assertThat
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.doAnswer
+import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
+import java.lang.Exception
 
 
 class MainViewModelTest {
 
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
+
+    @ExperimentalCoroutinesApi
+    @get:Rule
+    var mainCoroutineRule = MainCoroutineRule()
 
     private lateinit var viewModel: MainViewModel
     private lateinit var repo: MovieRepository
@@ -123,5 +133,34 @@ class MainViewModelTest {
         repo.getMovies(callback)
     }
 
+    @ExperimentalCoroutinesApi
+    @Test
+    fun `Get Movies Coroutine returns data`() {
+        val movies: List<Movie> = listOf(Movie("title","image","overview"))
+        mainCoroutineRule.runBlockingTest {
+            whenever(repo.getMoviesCoroutine()).thenReturn(Result.Success(movies))
+            val observer: Observer<MainViewState> = Observer {
+                assertThat(it).isEqualTo(Success(movies))
+            }
+            viewModel.mainViewState.observeForever(observer)
+            repo.getMoviesCoroutine()
+        }
 
+    }
+
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun `Get Movies Coroutine returns error`() {
+        val e = Exception("error")
+        mainCoroutineRule.runBlockingTest {
+            whenever(repo.getMoviesCoroutine()).thenReturn(Result.Error(e))
+            val observer: Observer<MainViewState> = Observer {
+                assertThat(it).isEqualTo(Error(e.message))
+            }
+            viewModel.mainViewState.observeForever(observer)
+            repo.getMoviesCoroutine()
+        }
+
+    }
 }

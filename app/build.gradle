@@ -52,9 +52,12 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     def truthVersion = '1.1.2'
+    def coroutinesVersion = '1.5.0'
     testImplementation 'org.mockito.kotlin:mockito-kotlin:3.2.0'
     testImplementation 'android.arch.core:core-testing:1.1.1'
     testImplementation "com.google.truth:truth:$truthVersion"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
 
 
     //retrofit
