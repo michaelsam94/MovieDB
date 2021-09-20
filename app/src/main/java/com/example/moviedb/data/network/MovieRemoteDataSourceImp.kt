@@ -4,6 +4,7 @@ import com.example.moviedb.NowPlayingRes
 import com.example.moviedb.data.MovieDataSource
 import com.example.moviedb.data.Result
 import com.example.moviedb.helper.Retrofit
+import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -30,6 +31,10 @@ class MovieRemoteDataSourceImp @Inject constructor(
         } catch (e: Exception) {
             Result.Error(e)
         }
+    }
+
+    override fun getMoviesRx(): Observable<NowPlayingRes> {
+        return movieService.getNowPlayingRx()
     }
 
 }

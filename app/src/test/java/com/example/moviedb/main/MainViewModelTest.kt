@@ -7,19 +7,16 @@ import com.example.moviedb.any
 import com.example.moviedb.data.MovieRepository
 import com.example.moviedb.data.RepoCallBack
 import com.example.moviedb.data.Result
-import com.example.moviedb.getOrAwaitValue
 import com.example.moviedb.ui.main.*
 import com.example.moviedb.ui.model.Movie
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.doAnswer
-import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import java.lang.Exception
 
@@ -63,7 +60,7 @@ class MainViewModelTest {
         doAnswer {
             val callBack: RepoCallBack<List<Movie>> = it.arguments[0] as RepoCallBack<List<Movie>>
             callBack.onSuccess(emptyList())
-        }.whenever(repo).getMovies(any(RepoCallBack::class))
+        }.whenever(repo).getMoviesCallback(any(RepoCallBack::class))
         //then
         val observer: Observer<MainViewState> = Observer {
             //Assert.assertEquals(Success<List<Movie>>(emptyList()), it)
@@ -71,7 +68,7 @@ class MainViewModelTest {
         }
         viewModel.mainViewState.observeForever(observer)
         //when
-        repo.getMovies(callback)
+        repo.getMoviesCallback(callback)
     }
 
     @Test
@@ -79,14 +76,14 @@ class MainViewModelTest {
         doAnswer {
             val callBack: RepoCallBack<List<Movie>> = it.arguments[0] as RepoCallBack<List<Movie>>
             callBack.onSuccess(listOf(Movie("title", "picture", "overview")))
-        }.whenever(repo).getMovies(any(RepoCallBack::class))
+        }.whenever(repo).getMoviesCallback(any(RepoCallBack::class))
         val observer: Observer<MainViewState> = Observer {
             //Assert.assertEquals(Success(listOf(Movie("title", "picture", "overview"))), it)
             assertThat(it).isEqualTo(Success(listOf(Movie("title", "picture", "overview"))))
         }
 
         viewModel.mainViewState.observeForever(observer)
-        repo.getMovies(callback)
+        repo.getMoviesCallback(callback)
     }
 
 
@@ -95,14 +92,14 @@ class MainViewModelTest {
         doAnswer {
             val callBack: RepoCallBack<List<Movie>> = it.arguments[0] as RepoCallBack<List<Movie>>
             callBack.onError("error")
-        }.whenever(repo).getMovies(any(RepoCallBack::class))
+        }.whenever(repo).getMoviesCallback(any(RepoCallBack::class))
         val observer: Observer<MainViewState> = Observer {
             //Assert.assertEquals(Error("error"), it)
             assertThat(it).isEqualTo(Error("error"))
         }
 
         viewModel.mainViewState.observeForever(observer)
-        repo.getMovies(callback)
+        repo.getMoviesCallback(callback)
     }
 
     @Test
@@ -110,14 +107,14 @@ class MainViewModelTest {
         doAnswer {
             val callBack: RepoCallBack<List<Movie>> = it.arguments[0] as RepoCallBack<List<Movie>>
             callBack.onSuccess(null)
-        }.whenever(repo).getMovies(any(RepoCallBack::class))
+        }.whenever(repo).getMoviesCallback(any(RepoCallBack::class))
         val observer: Observer<MainViewState> = Observer {
             //Assert.assertEquals(Success(null),it)
             assertThat(it).isEqualTo(Success(null))
         }
 
         viewModel.mainViewState.observeForever(observer)
-        repo.getMovies(callback)
+        repo.getMoviesCallback(callback)
     }
 
     @Test
@@ -125,12 +122,12 @@ class MainViewModelTest {
         doAnswer {
             val callBack: RepoCallBack<List<Movie>> = it.arguments[0] as RepoCallBack<List<Movie>>
             callBack.onError(null)
-        }.whenever(repo).getMovies(any(RepoCallBack::class))
+        }.whenever(repo).getMoviesCallback(any(RepoCallBack::class))
         val observer: Observer<MainViewState> = Observer {
             assertThat(it).isEqualTo(Error(null))
         }
         viewModel.mainViewState.observeForever(observer)
-        repo.getMovies(callback)
+        repo.getMoviesCallback(callback)
     }
 
     @ExperimentalCoroutinesApi

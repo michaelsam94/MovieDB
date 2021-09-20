@@ -4,11 +4,12 @@ import com.example.moviedb.NowPlayingRes
 import com.example.moviedb.data.network.NetworkCallback
 import com.example.moviedb.data.network.POSTER_PREFIX
 import com.example.moviedb.ui.model.Movie
+import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
 
 class MovieRepositoryImp @Inject constructor(private val movieRemoteDataSource: MovieDataSource): MovieRepository {
 
-    override fun getMovies(repoCallback: RepoCallBack<List<Movie>>){
+    override fun getMoviesCallback(repoCallback: RepoCallBack<List<Movie>>){
         movieRemoteDataSource.getMovies(object : NetworkCallback<NowPlayingRes> {
             override fun onSuccess(data: NowPlayingRes?) {
                 repoCallback.onSuccess(convertMovieRes(data!!))
@@ -21,6 +22,8 @@ class MovieRepositoryImp @Inject constructor(private val movieRemoteDataSource: 
         })
     }
 
+
+
     override suspend fun getMoviesCoroutine(): Result<List<Movie>> {
         val res = movieRemoteDataSource.getMoviesCoroutine()
         if(res is Result.Success){
@@ -28,6 +31,10 @@ class MovieRepositoryImp @Inject constructor(private val movieRemoteDataSource: 
             return Result.Success(resConverted)
         }
         return Result.Error((res as Result.Error).exception)
+    }
+
+    override fun getMoviesRx(): Observable<List<Movie>> {
+        return movieRemoteDataSource.getMoviesRx().map { convertMovieRes(it) }
     }
 
 

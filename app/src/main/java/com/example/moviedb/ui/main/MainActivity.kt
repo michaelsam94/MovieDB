@@ -51,7 +51,8 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
-        viewModel.getMoviesCoroutine()
+        //viewModel.getMoviesCoroutine()
+        viewModel.getMoviesRx()
     }
 
 

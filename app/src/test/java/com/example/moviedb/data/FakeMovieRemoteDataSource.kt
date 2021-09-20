@@ -4,6 +4,7 @@ import com.example.moviedb.Dates
 import com.example.moviedb.NowPlayingRes
 import com.example.moviedb.Result
 import com.example.moviedb.data.network.NetworkCallback
+import io.reactivex.rxjava3.core.Observable
 import java.lang.Exception
 
 class FakeMovieRemoteDataSource : MovieDataSource {
@@ -43,6 +44,10 @@ class FakeMovieRemoteDataSource : MovieDataSource {
         initMovies()
         return if(shouldReturnNetworkError()) com.example.moviedb.data.Result.Error(Exception())
         else com.example.moviedb.data.Result.Success(movieRes)
+    }
+
+    override fun getMoviesRx(): Observable<NowPlayingRes> {
+        return Observable.just(movieRes)
     }
 
 

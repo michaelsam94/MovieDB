@@ -21,7 +21,7 @@ class MovieRepositoryTest {
 
     @Test
     fun `get movies return list of movies`(){
-        movieRepository.getMovies(object : RepoCallBack<List<Movie>>{
+        movieRepository.getMoviesCallback(object : RepoCallBack<List<Movie>>{
             override fun onSuccess(moviesList: List<Movie>?) {
                 movieRemoteDataSource.getMovies(object : NetworkCallback<NowPlayingRes>{
                     override fun onSuccess(data: NowPlayingRes?) {
